@@ -11,12 +11,12 @@
   - capability
 
 - name: '[BAMBOO] Check if the agent file exists'
-  stat:
+  win_stat:
     path: "{{ bambooagent_capability_file }}"
   register: stat_result
 
 - name: Create root directory if file does not exist
-  file:
+  win_file:
     path: "{{ bambooagent_capability_file | dirname }}"
     state: directory
     recurse: yes
@@ -26,7 +26,7 @@
   when: not stat_result.stat.exists
 
 - name: Create the agent file, if it doesnt exist already
-  file:
+  win_file:
     path: "{{ bambooagent_capability_file }}"
     state: touch
   when: not stat_result.stat.exists
